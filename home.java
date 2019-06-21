@@ -1,5 +1,6 @@
 package android.example.com.imhungry;
 
+import android.content.Intent;
 import android.example.com.imhungry.Common.Common;
 import android.example.com.imhungry.Interface.ItemClickListener;
 import android.example.com.imhungry.Model.Category;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,7 +33,7 @@ public class home extends AppCompatActivity
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     TextView txtv ;
-
+    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     @Override
@@ -75,15 +77,19 @@ public class home extends AppCompatActivity
     }
 
     private void loadMenu() {
-        FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,databaseReference) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,databaseReference) {
             @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
-                viewHolder.txtv.setText(model.getName());
-                Picasso.get().load(model.getImageLink()).into(viewHolder.img);
+            protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, final int position) {
+                viewHolder.txtvMenu.setText(model.getName());
+                Picasso.get().load(model.getImageLink()).into(viewHolder.imgMenu);
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int postion, boolean isLongClick) {
-                        Toast.makeText(home.this,model.getName(),Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(home.this,FoodList.class);
+                        String key = adapter.getRef(position).getKey();
+                        Log.i("keyyyyyyyyyyyyyyyyy", "onClick: " + key);
+                        intent.putExtra("categoryId",adapter.getRef(position).getKey());
+                        startActivity(intent);
                     }
                 });
             }

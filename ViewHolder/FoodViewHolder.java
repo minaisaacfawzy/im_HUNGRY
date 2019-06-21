@@ -7,14 +7,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    public ImageView imgMenu;
-    public TextView txtvMenu;
-    ItemClickListener itemClickListener;
-    public MenuViewHolder(View itemView) {
+public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public ImageView imgFood;
+    public TextView txtvFood;
+
+    private ItemClickListener itemClickListener;
+
+    public FoodViewHolder(View itemView) {
         super(itemView);
-        imgMenu = itemView.findViewById(R.id.imgv_menu);
-        txtvMenu = itemView.findViewById(R.id.txtv_menu_name);
+        imgFood = itemView.findViewById(R.id.imgv_food);
+        txtvFood= itemView.findViewById(R.id.txtv_food_name);
         itemView.setOnClickListener(this);
     }
 
@@ -24,7 +26,6 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View v) {
-
         itemClickListener.onClick(v,getAdapterPosition(),false);
     }
 }
