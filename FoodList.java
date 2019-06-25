@@ -73,13 +73,15 @@ public class FoodList extends AppCompatActivity {
                 FoodViewHolder.class,
                 databaseReference.orderByChild("menuId").equalTo(categoryId)) {
             @Override
-            protected void populateViewHolder(FoodViewHolder viewHolder, final Food model, int position) {
+            protected void populateViewHolder(FoodViewHolder viewHolder, final Food model, final int position) {
                 viewHolder.txtvFood.setText(model.getName());
                 Picasso.get().load(model.getImage()).into(viewHolder.imgFood);
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int postion, boolean isLongClick) {
-                        Toast.makeText(FoodList.this,""+model.getName(),Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(FoodList.this,FoodDetail.class);
+                        intent.putExtra("foodId",adapter.getRef(position).getKey());
+                        startActivity(intent);
                     }
                 });
             }
